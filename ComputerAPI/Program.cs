@@ -1,4 +1,6 @@
 
+using ComputerAPI.Models;
+
 namespace ComputerAPI
 {
     public class Program
@@ -6,6 +8,8 @@ namespace ComputerAPI
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddDbContext<ComputerShopDbContext>();
 
             // Add services to the container.
 
