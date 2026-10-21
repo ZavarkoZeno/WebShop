@@ -5,18 +5,6 @@
     "version": "1.0"
   },
   "paths": {
-    "/computer/getAll": {
-      "get": {
-        "tags": [
-          "Computer"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/computer": {
       "post": {
         "tags": [
@@ -41,6 +29,16 @@
             }
           }
         },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Computer"
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -99,6 +97,74 @@
               "format": "uuid"
             }
           }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/computer/byId": {
+      "get": {
+        "tags": [
+          "Computer"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/computer/allOsystemAndComputer": {
+      "get": {
+        "tags": [
+          "Computer"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/computer/oneOsystemOneComputer": {
+      "get": {
+        "tags": [
+          "Computer"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/computer/allComputerSortedByOsystem": {
+      "get": {
+        "tags": [
+          "Computer"
         ],
         "responses": {
           "200": {
@@ -208,6 +274,62 @@
           }
         }
       }
+    },
+    "/osystem/allOsystemAndComputer": {
+      "get": {
+        "tags": [
+          "Osystem"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/osystem/oneOsystemAndComputer": {
+      "get": {
+        "tags": [
+          "Osystem"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/osystem/numberOfComputers": {
+      "get": {
+        "tags": [
+          "Osystem"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -230,6 +352,10 @@
           "memory": {
             "type": "integer",
             "format": "int32"
+          },
+          "createdtime": {
+            "type": "string",
+            "format": "date-time"
           },
           "osysId": {
             "type": "string",

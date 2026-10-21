@@ -8,6 +8,7 @@ namespace ComputerAPI.Models
         public string? Type { get; set; }
         public double Display { get; set; }
         public int Memory { get; set; }
-        public Osystem Osys { get; set; }
+        public DateTime Createdtime { get; set; }
+        public Guid OsysId { get; set; }
     }
 }

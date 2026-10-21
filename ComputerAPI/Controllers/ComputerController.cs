@@ -10,7 +10,7 @@ namespace ComputerAPI.Controllers
     {
         public ComputerShopDbContext context = new ComputerShopDbContext();
         [HttpPost]
-        public object AddNewCompueter([FromBody] AddNewComputerDto addNewComputerDto)
+        public object AddNewComputer([FromBody] AddNewComputerDTO addNewComputerDto)
         {
             var cmp = new Computer
             {
@@ -62,7 +62,7 @@ namespace ComputerAPI.Controllers
         }
 
         [HttpPut]
-        public object UpdateComputer([FromQuery] Guid id, [FromBody] UpdateComputerDto updateComputerDto)
+        public object UpdateComputer([FromQuery] Guid id, [FromBody] UpdateComputerDTO updateComputerDto)
         {
             var computer = context.Computers.Find(id);
 
@@ -101,12 +101,79 @@ namespace ComputerAPI.Controllers
         public object AllOsystemAndComputer()
         {
             var computers = context.Osystems.Include(o => o.Computers).Select(o => new { o.Name, o.Version, o.Computers });
-            var cmp = context.Osystems.Include(o => o.Computers).ToList();
+
+            var cmp = context.Osystems.Join(context.Computers, o => o.Id, c => c.OsysId, (o, c) => new { o.Name, o.Version, c.Brand, c.Type });
+            if (cmp != null)
+            {
+                return StatusCode(200, new { message = "Sikeres lekérdezés", result = cmp });
+            }
+            return StatusCode(404, new { message = "Sikertelen lekérdezés", result = cmp });
+        }
+
+        [HttpGet("oneOsystemOneComputer")]
+        public object OneOsystemOneComputer([FromQuery] Guid id)
+        {
+            var osystems = context.Osystems.GroupJoin(context.Computers, o => o.Id, c => c.OsysId, (o, c) => new {OsName = o.Name, Ver = o.Version, Count = c.Count() }).OrderBy(o => o.OsName).ThenBy(c => c.Ver);
+            if (osystems != null)
+            {
+                return StatusCode(200, new { message = "Sikeres lekérdezés", result = osystems });
+            }
+            return StatusCode(404, new { message = "Sikertelen lekérdezés", result = osystems });
+        }
+
+        [HttpGet("allComputerSortedByOsystem")]
+        public object AllComputerSortedByOsystem()
+        {
+            var computers = context.Computers.Join(context.Osystems, c => c.OsysId, o => o.Id, (c, o) => new { c.Brand, c.Type, o.Name, o.Version }).OrderBy(c => c.Name);
+            if (computers.Count() > 0)
+            {
+                return StatusCode(200, new { message = "Sikeres lekérdezés", result = computers });
+            }
+            return StatusCode(404, new { message = "Sikertelen lekérdezés", result = computers });
+        }
+
+        [HttpGet("getComputersByBrand")]
+        public object GetComputersByBrand([FromQuery] string brand)
+        {
+            var computers = context.Computers.Where(c => c.Brand.ToLower() == brand.ToLower()).Select(c => new { c.Id, c.Brand, c.Type, Osystem = context.Osystems.Where(o => o.Id == c.OsysId).Select(o => new { o.Name, o.Version }).FirstOrDefault()}).ToList();
             if (computers.Count > 0)
             {
                 return StatusCode(200, new { message = "Sikeres lekérdezés", result = computers });
             }
             return StatusCode(404, new { message = "Sikertelen lekérdezés", result = computers });
+        }
+
+        [HttpGet("getComputersByOsystem")]
+        public object GetComputersByOsystem([FromQuery] string OsystemName)
+        {
+            var computers = context.Computers.Join(context.Osystems, c => c.OsysId, o => o.Id, (c, o) => new { c.Id, c.Brand, c.Type, Osystem = new { o.Name, o.Version } }).Where(co => co.Osystem.Name == OsystemName);
+            if (computers.Count > 0)
+            {
+                return StatusCode(200, new { message = "Sikeres lekérdezés", result = computers });
+            }
+            return StatusCode(404, new { message = "Sikertelen lekérdezés", result = computers });
+        }
+
+        [HttpGet("getLatestComputer")]
+        public object GetLatestComputer()
+        {
+            var latestComputer = context.Computers.OrderByDescending(c => c.CreatedTime).Take(1).Select(c => new { c.Id, c.Brand, c.Type, c.CreatedTime }).ToList();
+            if (latestComputer.Count > 0)
+            {
+                return StatusCode(200, new { message = "Sikeres lekérdezés", result = latestComputer });
+            }
+            return StatusCode(404, new { message = "Sikertelen lekérdezés", result = latestComputer });
+        }
+
+        [HttpGet("getBrandSummary")]
+        public object GetBrandSummary()
+        {
+            var brandSummary = context.Computers.GroupBy(c => c.Brand).Select(g => new { Brand = g.Key, Count = g.Count() }).ToList();
+            if (brandSummary.Count > 0)
+            {
+                return StatusCode(200, new { message = "Sikeres lekérdezés", result = brandSummary });
+            }
+            return StatusCode(404, new { message = "Sikertelen lekérdezés", result = brandSummary });
         }
     }
 }

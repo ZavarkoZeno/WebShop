@@ -16,8 +16,7 @@ namespace ComputerAPI.Models
         [Column(TypeName = "float")]
         public double Display { get; set; }
         public int Memory { get; set; }
-        public DateTime Createdtime { get; set; }
-
+        public DateTime CreatedTime { get; set; }
         [JsonIgnore]
         public Osystem Osys { get; internal set; }
         public Guid OsysId { get; set; }

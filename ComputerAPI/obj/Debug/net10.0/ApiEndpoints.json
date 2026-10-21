@@ -8,11 +8,21 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "addNewComputerDTO",
+        "Name": "addNewComputerDto",
         "Type": "ComputerAPI.Models.AddNewComputerDTO",
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ComputerAPI.Controllers.ComputerController",
+    "Method": "GetAll",
+    "RelativePath": "computer",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -29,7 +39,7 @@
         "IsRequired": false
       },
       {
-        "Name": "updateComputerDTO",
+        "Name": "updateComputerDto",
         "Type": "ComputerAPI.Models.UpdateComputerDTO",
         "IsRequired": true
       }
@@ -38,7 +48,7 @@
   },
   {
     "ContainingType": "ComputerAPI.Controllers.ComputerController",
-    "Method": "DeleteComputer",
+    "Method": "DeleteById",
     "RelativePath": "computer",
     "HttpMethod": "DELETE",
     "IsController": true,
@@ -54,12 +64,54 @@
   },
   {
     "ContainingType": "ComputerAPI.Controllers.ComputerController",
-    "Method": "getAllComputer",
-    "RelativePath": "computer/getAll",
+    "Method": "AllComputerSortedByOsystem",
+    "RelativePath": "computer/allComputerSortedByOsystem",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ComputerAPI.Controllers.ComputerController",
+    "Method": "AllOsystemAndComputer",
+    "RelativePath": "computer/allOsystemAndComputer",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ComputerAPI.Controllers.ComputerController",
+    "Method": "GetById",
+    "RelativePath": "computer/byId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ComputerAPI.Controllers.ComputerController",
+    "Method": "OneOsystemOneComputer",
+    "RelativePath": "computer/oneOsystemOneComputer",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
     "ReturnTypes": []
   },
   {
@@ -117,12 +169,54 @@
   },
   {
     "ContainingType": "ComputerAPI.Controllers.OsystemController",
+    "Method": "AllOsystemAndComputer",
+    "RelativePath": "osystem/allOsystemAndComputer",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ComputerAPI.Controllers.OsystemController",
     "Method": "getAllOsystem",
     "RelativePath": "osystem/getAll",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ComputerAPI.Controllers.OsystemController",
+    "Method": "NumberOfComputers",
+    "RelativePath": "osystem/numberOfComputers",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ComputerAPI.Controllers.OsystemController",
+    "Method": "OneOsystemAndComputer",
+    "RelativePath": "osystem/oneOsystemAndComputer",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
     "ReturnTypes": []
   }
 ]

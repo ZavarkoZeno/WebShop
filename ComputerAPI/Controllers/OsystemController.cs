@@ -88,5 +88,23 @@ namespace ComputerAPI.Controllers
             }
             return StatusCode(404, new { message = "Sikertelen lekérdezés", result = osystem });
         }
+
+        [HttpGet("numberOfComputers")]
+        public object NumberOfComputers([FromQuery] Guid id)
+        {
+            var numberOfComputers = context.Computers.Count(c => c.OsysId == id);
+            return StatusCode(200, new { message = "Sikeres lekérdezés", result = numberOfComputers });
+        }
+
+        [HttpGet("getOsystemsWithNoComputers")]
+        public object GetOsystemsWithNoComputers()
+        {
+            var osystems = context.Osystems.Where(o => !context.Computers.Any(c => c.OsysId == o.Id)).Select(o => new {o.Id, o.Name, o.Version });
+            if (osystems.Count() > 0)
+            {
+                return StatusCode(200, new { message = "Sikeres lekérdezés", result = osystems });
+            }
+            return StatusCode(404, new { message = "Sikertelen lekérdezés", result = osystems });
+        }
     }
 }
